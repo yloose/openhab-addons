@@ -40,6 +40,7 @@ public class AlarmTest {
         config.setEntryTime(1);
         config.setExitTime(1);
         config.setPassthroughTime(1);
+        config.setTempDisableTime(60*30);
         alarm = new AlarmController(config, new AlarmListener() {
 
             @Override
@@ -814,6 +815,8 @@ public class AlarmTest {
 
     @Test
     public void testTemporaryDisableZone() throws AlarmException {
+        alarm.addOrUpdateAlarmZone(new AlarmZone("secondIntern", AlarmZoneType.INTERN_ACTIVE));
+
         assertEquals(true, isReadyToArmInternally);
         assertEquals(true, isReadyToArmExternally);
 
@@ -836,6 +839,33 @@ public class AlarmTest {
         alarm.enableTemporaryDisabledZone(ID_ZONE_INTERN_ACTIVE);
         assertEquals(true, isReadyToArmInternally);
         assertEquals(true, isReadyToArmExternally);
+
+        alarm.removeAlarmZone("secondIntern");
     }
 
+    @Test
+    public void testTemporaryDisableZoneWhenArmed() throws AlarmException {
+        alarm.addOrUpdateAlarmZone(new AlarmZone("secondIntern", AlarmZoneType.INTERN_ACTIVE));
+
+        alarm.doCommand(AlarmCommand.ARM_INTERNALLY);
+        assertEquals(AlarmStatus.INTERNALLY_ARMED, status);
+
+        assertEquals(false, isReadyToArmInternally);
+        assertEquals(false, isReadyToArmExternally);
+
+        alarm.temporaryDisableZone(ID_ZONE_INTERN_ACTIVE);
+        assertEquals(false, isReadyToArmInternally);
+        assertEquals(false, isReadyToArmExternally);
+        assertEquals(AlarmStatus.INTERNALLY_ARMED, status);
+
+        alarm.enableTemporaryDisabledZone(ID_ZONE_INTERN_ACTIVE);
+        assertEquals(false, isReadyToArmInternally);
+        assertEquals(false, isReadyToArmExternally);
+        assertEquals(AlarmStatus.INTERNALLY_ARMED, status);
+
+        alarm.doCommand(AlarmCommand.DISARM);
+        assertEquals(AlarmStatus.DISARMED, status);
+
+        alarm.removeAlarmZone("secondIntern");
+    }
 }
