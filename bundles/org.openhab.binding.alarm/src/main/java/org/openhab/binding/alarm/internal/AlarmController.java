@@ -149,6 +149,7 @@ public class AlarmController {
             tempDisabledZones.put(id, zoneInfo);
             alarmZone.setType(DISABLED);
             logger.info("Temporary disabled alarm zone '{}' for max. {} seconds", id, config.getTempDisableTime());
+            alarmZoneChanged(id, alarmZone.isClosed());
         }
     }
 
