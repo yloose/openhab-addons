@@ -44,6 +44,7 @@ public class AlarmController {
     private Boolean isReadyToArmInternally;
     private Boolean isReadyToArmExternally;
     private Boolean isReadyToPassthrough;
+    private ScheduledFuture<?> startupFuture;
 
     private ScheduledExecutorService scheduler = ThreadPoolManager.getScheduledPool("alarmController");
     private Map<String, TempDisabledZoneInfo> tempDisabledZones = new HashMap<>();
@@ -54,6 +55,10 @@ public class AlarmController {
     public AlarmController(AlarmControllerConfig config, AlarmListener listener) {
         this.config = config;
         this.listener = listener;
+        this.startupFuture = scheduler.schedule(() -> {
+            validate();
+            startupFuture = null;
+        }, 30, TimeUnit.SECONDS);
     }
 
     /**
@@ -268,6 +273,10 @@ public class AlarmController {
 
     public void dispose() {
         countDown.stop();
+
+        if (startupFuture != null) {
+            startupFuture.cancel(true);
+        }
 
         for (TempDisabledZoneInfo zoneInfo : tempDisabledZones.values()) {
             if (zoneInfo.future != null) {
