@@ -1,9 +1,9 @@
 package org.openhab.binding.alarm.test;
 
-import static org.junit.Assert.*;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.openhab.binding.alarm.internal.AlarmController;
 import org.openhab.binding.alarm.internal.AlarmException;
 import org.openhab.binding.alarm.internal.AlarmListener;
@@ -33,7 +33,7 @@ public class AlarmTest {
     private static boolean isReadyToArmExternally;
     private static boolean isReadyToPassthrough;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
         config = new AlarmControllerConfig();
         config.setAlarmDelay(1);
