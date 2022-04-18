@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010-2021 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -21,7 +21,11 @@ public class RFXComLighting4DeviceConfiguration extends RFXComGenericDeviceConfi
     public static final String PULSE_LABEL = "pulse";
     public static final String ON_COMMAND_ID_LABEL = "onCommandId";
     public static final String OFF_COMMAND_ID_LABEL = "offCommandId";
+    public static final String OPEN_COMMAND_ID_LABEL = "openCommandId";
+    public static final String CLOSED_COMMAND_ID_LABEL = "closedCommandId";
     public Integer pulse;
     public Integer onCommandId;
     public Integer offCommandId;
+    public Integer openCommandId;
+    public Integer closedCommandId;
 }

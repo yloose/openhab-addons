@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010-2021 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -142,7 +142,8 @@ public class RFXComRawMessage extends RFXComDeviceMessageImpl<RFXComRawMessage.S
     }
 
     @Override
-    public State convertToState(String channelId, DeviceState deviceState) throws RFXComUnsupportedChannelException {
+    public State convertToState(String channelId, RFXComDeviceConfiguration config, DeviceState deviceState)
+            throws RFXComUnsupportedChannelException {
         switch (channelId) {
             case CHANNEL_RAW_MESSAGE:
                 return new StringType(HexUtils.bytesToHex(rawMessage));

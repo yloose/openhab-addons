@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010-2021 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -102,8 +102,10 @@ public class RFXComBridgeHandler extends BaseBridgeHandler {
                 RFXComBaseMessage msg = queue.peek();
 
                 try {
-                    logger.debug("Transmitting message '{}'", msg);
                     byte[] data = msg.decodeMessage();
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("Transmitting bytes '{}' for message '{}'", HexUtils.bytesToHex(data), msg);
+                    }
                     connector.sendMessage(data);
                     break;
                 } catch (RFXComException rfxe) {
@@ -171,7 +173,7 @@ public class RFXComBridgeHandler extends BaseBridgeHandler {
         if (configuration.serialPort != null && configuration.serialPort.startsWith("rfc2217")) {
             logger.debug("Please use the Transceiver over TCP/IP bridge type for a serial over IP connection.");
             updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR,
-                    "Please use the Transceiver over TCP/IP bridge type for a serial over IP connection.");
+                    "@text/offline.config-error-invalid-thing-type");
             return;
         }
 

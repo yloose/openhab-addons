@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010-2021 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -210,19 +210,19 @@ public class LightThingHandler extends DeconzBaseThingHandler {
                     }
                 } else if (command instanceof HSBType) {
                     HSBType hsbCommand = (HSBType) command;
-                    if ("xy".equals(colorMode)) {
+                    // XY color is the implicit default: Use XY color mode if i) no color mode is set or ii) if the bulb
+                    // is in CT mode or iii) already in XY mode. Only if the bulb is in HS mode, use this one.
+                    if ("hs".equals(colorMode)) {
+                        newLightState.hue = (int) (hsbCommand.getHue().doubleValue() * HUE_FACTOR);
+                        newLightState.sat = Util.fromPercentType(hsbCommand.getSaturation());
+                    } else {
                         PercentType[] xy = hsbCommand.toXY();
                         if (xy.length < 2) {
                             logger.warn("Failed to convert {} to xy-values", command);
                         }
                         newLightState.xy = new double[] { xy[0].doubleValue() / 100.0, xy[1].doubleValue() / 100.0 };
-                        newLightState.bri = Util.fromPercentType(hsbCommand.getBrightness());
-                    } else {
-                        // default is colormode "hs" (used when colormode "hs" is set or colormode is unknown)
-                        newLightState.bri = Util.fromPercentType(hsbCommand.getBrightness());
-                        newLightState.hue = (int) (hsbCommand.getHue().doubleValue() * HUE_FACTOR);
-                        newLightState.sat = Util.fromPercentType(hsbCommand.getSaturation());
                     }
+                    newLightState.bri = Util.fromPercentType(hsbCommand.getBrightness());
                 } else if (command instanceof PercentType) {
                     newLightState.bri = Util.fromPercentType((PercentType) command);
                 } else if (command instanceof DecimalType) {
@@ -464,7 +464,7 @@ public class LightThingHandler extends DeconzBaseThingHandler {
                     updateStatus(ThingStatus.ONLINE);
                     thing.getChannels().stream().map(c -> c.getUID().getId()).forEach(c -> valueUpdated(c, lightState));
                 } else {
-                    updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.GONE, "Not reachable");
+                    updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.NONE, "@text/offline.light-not-reachable");
                     thing.getChannels().stream().map(c -> c.getUID()).forEach(c -> updateState(c, UnDefType.UNDEF));
                 }
             }
