@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<thing:thing-descriptions bindingId="gcploen"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:thing="https://openhab.org/schemas/thing-description/v1.0.0"
+	xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
+
+	<thing-type id="gcploenThing">
+
+		<label>GCPloen Thing</label>
+		<description>Garbage collection date retrieval service for the region of Ploen.</description>
+		<category>WebService</category>
+
+		<channels>
+			<channel id="abfallart_1_1" typeId="abfallart_1_1"></channel>
+			<channel id="abfallart_1_2" typeId="abfallart_1_2"></channel>
+			<channel id="abfallart_1_3" typeId="abfallart_1_3"></channel>
+			<channel id="abfallart_1_4" typeId="abfallart_1_4"></channel>
+			<channel id="abfallart_1_5" typeId="abfallart_1_5"></channel>
+			<channel id="abfallart_1_6" typeId="abfallart_1_6"></channel>
+			<channel id="abfallart_1_7" typeId="abfallart_1_7"></channel>
+		</channels>
+
+		<config-description>
+			<parameter name="district" type="text" required="true">
+				<label>District</label>
+				<description>District for which collection dates should be retrieved</description>
+			</parameter>
+			<parameter name="street" type="text" required="true">
+				<label>Street</label>
+				<description>Street for which collection dates should be retrieved.</description>
+			</parameter>
+			<parameter name="refreshInterval" type="integer" unit="d" min="1">
+				<label>Refresh Interval</label>
+				<description>Interval the information is updated in days.</description>
+				<default>30</default>
+				<advanced>true</advanced>
+			</parameter>
+		</config-description>
+	</thing-type>
+
+	<channel-type id="abfallart_1_1">
+		<item-type>String</item-type>
+		<label>Restabfall 14-täglich</label>
+		<description>Restabfall 14-täglich collection dates</description>
+		<state readOnly="true"></state>
+	</channel-type>
+	<channel-type id="abfallart_1_2">
+		<item-type>String</item-type>
+		<label>Restabfall 4-wöchentlich</label>
+		<description>Restabfall 4-wöchentlich collection dates</description>
+		<state readOnly="true"></state>
+	</channel-type>
+	<channel-type id="abfallart_1_3">
+		<item-type>String</item-type>
+		<label>Gelber Sack</label>
+		<description>Gelber Sack collection dates</description>
+		<state readOnly="true"></state>
+	</channel-type>
+	<channel-type id="abfallart_1_4">
+		<item-type>String</item-type>
+		<label>Bioabfall 2-wöchentlich</label>
+		<description>Bioabfall 2-wöchentlich collection dates</description>
+		<state readOnly="true"></state>
+	</channel-type>
+	<channel-type id="abfallart_1_5">
+		<item-type>String</item-type>
+		<label>Papier 4-wöchentlich</label>
+		<description>Papier 4-wöchentlich collection dates</description>
+		<state readOnly="true"></state>
+	</channel-type>
+	<channel-type id="abfallart_1_6">
+		<item-type>String</item-type>
+		<label>Papiercontainer 4-wöchentlich</label>
+		<description>Papiercontainer 4-wöchentlich collection dates</description>
+		<state readOnly="true"></state>
+	</channel-type>
+	<channel-type id="abfallart_1_7">
+		<item-type>String</item-type>
+		<label>Restabfallcontainer 14-täglich</label>
+		<description>Restabfallcontainer 14-täglich collection dates</description>
+		<state readOnly="true"></state>
+	</channel-type>
+</thing:thing-descriptions>
