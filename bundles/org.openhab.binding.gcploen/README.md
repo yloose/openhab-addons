@@ -1,4 +1,4 @@
-# Garbage collection Ploen binding
+# Garbage Collection Ploen Binding
 
 The GCPloen binding provides information about garbage collection dates for specified streets and communes/district in the area of Ploen. The data is retrieved from the online service provided here: [Kreis Plön Abfallwirtschaft](https://www.kreis-ploen.de/B%C3%BCrgerservice/Onlinedienste/Abfuhrtermine-Abfallwirtschaft/index.php)
 
@@ -10,7 +10,7 @@ The GCPloen binding provides information about garbage collection dates for spec
 
 ## Discovery
 
-Discovery is not possible, due some form input values from the website above are required.
+Discovery is not possible, due to some form input values from the website above being required.
 
 ## Thing Configuration
 
